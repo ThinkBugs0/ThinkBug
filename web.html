@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThinkBug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Curated security write-ups focused on thinking, not payloads.">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(158, 203, 255, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(158, 203, 255, 0.6); }
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1147 50%, #2d1b69 100%);
+      color: #e6e6e6;
+      margin: 0;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20% 30%, white, transparent),
+        radial-gradient(2px 2px at 60% 70%, white, transparent),
+        radial-gradient(1px 1px at 50% 50%, white, transparent),
+        radial-gradient(1px 1px at 80% 10%, white, transparent),
+        radial-gradient(2px 2px at 90% 60%, white, transparent),
+        radial-gradient(1px 1px at 33% 80%, white, transparent),
+        radial-gradient(1px 1px at 15% 90%, white, transparent);
+      background-size: 200% 200%;
+      background-position: 0% 0%;
+      animation: twinkle 4s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(138, 43, 226, 0.1) 0%, transparent 70%);
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      padding: 30px 40px;
+      background: rgba(15, 17, 37, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid rgba(158, 203, 255, 0.2);
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    header img {
+      height: 70px;
+      margin-left: 20px;
+      filter: drop-shadow(0 0 10px rgba(158, 203, 255, 0.5));
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .header-text {
+      flex: 1;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #9ecbff 0%, #b794f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+
+    .tagline {
+      margin: 5px 0 0 0;
+      font-size: 1rem;
+      color: #9ecbff;
+      text-shadow: 0 0 10px rgba(158, 203, 255, 0.5);
+    }
+
+    nav {
+      display: flex;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #9ecbff;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 25px;
+      background: rgba(158, 203, 255, 0.1);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(158, 203, 255, 0.3);
+    }
+
+    nav a:hover {
+      background: rgba(158, 203, 255, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(158, 203, 255, 0.4);
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 60px 30px;
+      position: relative;
+      z-index: 5;
+    }
+
+    section {
+      margin-bottom: 80px;
+    }
+
+    h2 {
+      border-bottom: 2px solid rgba(158, 203, 255, 0.3);
+      padding-bottom: 15px;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #ffffff 0%, #9ecbff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 30px;
+    }
+
+    article {
+      margin-bottom: 30px;
+      padding: 25px;
+      background: rgba(21, 24, 33, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid rgba(158, 203, 255, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    article::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(158, 203, 255, 0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    article:hover::before {
+      left: 100%;
+    }
+
+    article:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 40px rgba(158, 203, 255, 0.3);
+      border-color: rgba(158, 203, 255, 0.5);
+    }
+
+    article h3 {
+      color: #9ecbff;
+      margin-bottom: 10px;
+      font-size: 1.4rem;
+    }
+
+    article p {
+      color: #c9d1d9;
+      line-height: 1.8;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 2px solid rgba(158, 203, 255, 0.2);
+      background: rgba(15, 17, 37, 0.8);
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 10;
+    }
+
+    .ad {
+      margin: 60px 0;
+      padding: 30px;
+      background: rgba(17, 17, 17, 0.6);
+      backdrop-filter: blur(10px);
+      border: 2px dashed rgba(158, 203, 255, 0.3);
+      border-radius: 15px;
+      text-align: center;
+      color: #9ecbff;
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      header img {
+        margin: 0 0 15px 0;
+      }
+
+      nav {
+        margin-top: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      main {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="Think.png" alt="ThinkBug Logo">
+  <div class="header-text">
+    <h1>ThinkBug</h1>
+    <p class="tagline">Think Out of the Box</p>
+  </div>
+  <nav>
+    <a href="#server">Server‑Side</a>
+    <a href="#client">Client‑Side</a>
+    <a href="#about">About</a>
+  </nav>
+</header>
+
+<main>
+
+  <section id="server">
+    <h2>Server‑Side</h2>
+
+    <article>
+      <h3>Broken Workflow Assumption → IDOR</h3>
+      <p>
+        An analysis of how trusting client‑derived state caused authorization checks to disappear.
+      </p>
+    </article>
+
+    <article>
+      <h3>Permission Drift in Internal APIs</h3>
+      <p>
+        When internal endpoints become public and nobody updates the auth model.
+      </p>
+    </article>
+  </section>
+
+  <div class="ad">
+    Advertisement Space (Security Tools / Sponsors)
+  </div>
+
+  <section id="client">
+    <h2>Client‑Side</h2>
+
+    <article>
+      <h3>Client‑Side Trust Leading to Logic Bypass</h3>
+      <p>
+        A frontend assumption that allowed state manipulation without server validation.
+      </p>
+    </article>
+  </section>
+
+  <section id="about">
+    <h2>About ThinkBug</h2>
+    <p>
+      ThinkBug publishes security research reports featuring innovative techniques and unconventional ideas 
+      that help you think outside the box. Our content focuses on unique methodologies and creative approaches 
+      to vulnerability discovery, empowering security researchers to develop their skills and expand their mindset 
+      for finding complex security flaws. We emphasize understanding the 'why' and 'how' behind vulnerabilities, 
+      not just the exploits themselves.
+    </p>
+    
+    <h3 style="color: #9ecbff; margin-top: 30px; margin-bottom: 15px;">What Makes Us Different</h3>
+    <p>
+      In today's security landscape, finding truly valuable write-ups with innovative ideas has become increasingly rare. 
+      Most articles focus on common commands and techniques used by the majority of security researchers, lacking the depth 
+      and creativity that truly advances the field.
+    </p>
+    <p>
+      At ThinkBug, we believe that thinking outside the box is more critical than ever. That's why we carefully curate 
+      reports that go beyond simple vulnerability explanations. We don't just show you how to exploit a flaw using 
+      conventional methods—we present fresh ideas, novel techniques, and creative approaches that challenge your perspective 
+      and expand your security research toolkit.
+    </p>
+    <p>
+      Every report is handpicked to ensure it offers genuine value: innovative thinking patterns, unique exploitation chains, 
+      and methodologies that inspire you to discover vulnerabilities others might miss. We're not just another security blog—we're 
+      a platform dedicated to elevating the art of security research through quality over quantity.
+    </p>
+  </section>
+
+</main>
+
+<footer>
+  © 2026 ThinkBug — Educational Content Only
+</footer>
+
+</body>
+</html>
