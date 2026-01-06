@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ThinkBug</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Curated security write-ups focused on thinking, not payloads.">
+
+</head>
+
+<body>
+
+<header>
+  <img src="Think.png" alt="ThinkBug Logo">
+  <div class="header-text">
+    <h1>ThinkBug</h1>
+    <p class="tagline">Think Out of the Box</p>
+  </div>
+
+  <nav>
+    <div class="filters-wrapper" aria-label="filters">
+      <!-- Access filter: All / Public / Private -->
+      <div class="filter-group" id="access-filters" role="group" aria-label="Access filter">
+        <span class="filter-label">Access:</span>
+        <button class="filter-btn active" data-filter="all" onclick="setAccessFilter('all', this)">All</button>
+        <button class="filter-btn" data-filter="public" onclick="setAccessFilter('public', this)">Public</button>
+        <button class="filter-btn" data-filter="private" onclick="setAccessFilter('private', this)">Private</button>
+      </div>
+
+      <!-- Category filter: vulnerability types -->
+      <div class="filter-group" id="category-filters" role="group" aria-label="Category filter">
+        <span class="filter-label">Category:</span>
+        <button class="filter-btn active" data-filter="all" onclick="setCategoryFilter('all', this)">All</button>
+        <button class="filter-btn" data-filter="logic" onclick="setCategoryFilter('logic', this)">Business Logic</button>
+        <button class="filter-btn" data-filter="csrf" onclick="setCategoryFilter('csrf', this)">CSRF</button>
+        <button class="filter-btn" data-filter="idor" onclick="setCategoryFilter('idor', this)">IDOR</button>
+        <button class="filter-btn" data-filter="info" onclick="setCategoryFilter('info', this)">Information Disclosure</button>
+        <button class="filter-btn" data-filter="access" onclick="setCategoryFilter('access', this)">Access Control Vulnerability</button>
+      </div>
+    </div>
+
+    <div class="nav-links" role="navigation" aria-label="main links">
+      <a href="#about">About</a>
+      <a class="submit-btn" href="https://show.forms.app/form/695d27c2ece46e00020a2787" target="_blank" rel="noopener">Submit Write-up</a>
+    </div>
+  </nav>
+</header>
+
+<!-- Notice banner (centered under header) -->
+<div class="notice-banner">
+  These write-ups were selected to showcase new techniques or ideas. Some are public write-ups and others are private security reports submitted by security researchers. Use the filters to choose what you want to read. All articles are published only after review.
+</div>
+
+<main>
+
+<div class="main-content">
+  <section id="vulnerabilities">
+    <h2>Write ups</h2>
+
+    <!-- Access Control Vulnerability items -->
+    <article data-category="access" data-access="public">
+      <span class="vulnerability-tag tag-access">Access Control</span>
+      <span class="access-badge badge-public">Public</span>
+      <h3>Simple HTTP Parameter Pollution escalated to PII Leak → 4‑Digit Bounty!</h3>
+      <p>
+        A logic flaw caused by HTTP Parameter Pollution where duplicate parameters are handled inconsistently across backend components, enabling access-control bypass and PII disclosure.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-http-pp-pii')">Read More →</button>
+    </article>
+
+    <article data-category="access" data-access="public">
+      <span class="vulnerability-tag tag-access">Access Control</span>
+      <span class="access-badge badge-public">Public</span>
+      <h3>Zero‑Click Account Takeover via Inconsistent Email Handling</h3>
+      <p>
+        A critical account takeover due to inconsistent email normalization between the database and SMTP layers resulting in reset tokens delivered to attacker-controlled addresses.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-zero-click-ato')">Read More →</button>
+    </article>
+
+    <article data-category="access" data-access="public">
+      <span class="vulnerability-tag tag-access">Access Control</span>
+      <span class="access-badge badge-public">Public</span>
+      <h3>Account Takeover via Social Login Email Confirmation</h3>
+      <p>
+        Abuse of social login flows and email confirmation logic leading to account takeover.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-facebook-ato')">Read More →</button>
+    </article>
+
+    <article data-category="access" data-access="private">
+      <span class="vulnerability-tag tag-access">Access Control</span>
+      <span class="access-badge badge-private">Private</span>
+      <h3>SSO Email Synchronization Flaw Leading to Account Takeover</h3>
+      <p>
+        Improper synchronization between subdomains and main domain via SSO allowed account takeover when emails diverged.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article3')">Read More →</button>
+    </article>
+
+    <!-- NEW: Guest order takeover (moved to Access Control, public) -->
+    <article data-category="access" data-access="public">
+      <span class="vulnerability-tag tag-access">Access Control</span>
+      <span class="access-badge badge-public">Public</span>
+      <h3>Access / Edit / Cancel Guest Orders</h3>
+      <p>
+        A logic flaw that allows unauthorized access to guest orders due to improper account‑to‑order binding. When an attacker registers with an email used in a previous guest checkout, those guest orders become accessible to the attacker.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-guest-order-takeover')">Read More →</button>
+    </article>
+
+    <!-- NEW: CSRF (private) -->
+    <article data-category="csrf" data-access="private">
+      <span class="vulnerability-tag tag-csrf">CSRF</span>
+      <span class="access-badge badge-private">Private</span>
+      <h3>CSRF Disguised as a Harmless Search Request</h3>
+      <p>
+        An unusual CSRF technique where a GET-style product/search URL silently triggers a state change (adding a vehicle).
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-csrf-disguised-search')">Read More →</button>
+    </article>
+
+    <!-- Business Logic -->
+    <article data-category="logic" data-access="private">
+      <span class="vulnerability-tag tag-logic">Business Logic</span>
+      <span class="access-badge badge-private">Private</span>
+      <h3>Draft Store Policies Disclosure via `draft=true` Parameter</h3>
+      <p>
+        An access control flaw where draft store policies could be exposed to unauthorized users through improper parameter validation.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-draft-disclosure')">Read More →</button>
+    </article>
+
+    <article data-category="logic" data-access="public">
+      <span class="vulnerability-tag tag-logic">Business Logic</span>
+      <span class="access-badge badge-public">Public</span>
+      <h3>PII Leak via Email-Based Owner Creation Logic</h3>
+      <p>
+        A critical flaw in user creation logic that relied solely on email address validation, allowing attackers to enumerate users and extract sensitive personal information without authentication.
+      </p>
+      <button class="read-more-btn" onclick="showArticle('article-pii-leak')">Read More →</button>
+    </article>
+
+  </section>
+
+  <section id="featured-techniques" style="margin: 60px 0; padding: 40px; background: rgba(21,24,33,0.6); backdrop-filter: blur(10px); border-radius: 15px; border: 1px solid rgba(158,203,255,0.2);">
+    <h2 style="border-bottom: 2px solid rgba(158,203,255,0.3); padding-bottom: 15px; font-size: 2rem; background: linear-gradient(135deg, #ffffff 0%, #9ecbff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px;">
+      ThinkBug Approach
+    </h2>
+    <p style="line-height: 1.8; font-size: 1.15rem; color: #c9d1d9;">
+      The platform features public and private security write-ups carefully selected under strict criteria, ensuring each piece introduces a novel, unconventional idea and innovative techniques. The goal is not quantity, but quality — empowering readers to think beyond standard methodologies and approach security research from a truly outside-the-box perspective.
+    </p>
+  </section>
+
+  <section id="about">
+    <h2>About ThinkBug</h2>
+    <p style="font-size:1.05rem;">
+      ThinkBug publishes security write-ups and reports that emphasize creative thinking and novel methodologies. Some entries are public write-ups; others are private reports shared by security researchers. Use the filters to select the type of content you want to read. All articles are published only after review.
+    </p>
+  </section>
+</div>
+
+<!-- Article Pages -->
+
+<!-- Simple HTTP Parameter Pollution article page -->
+<div id="article-http-pp-pii" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-access">Access Control</span>
+    <span class="access-badge badge-public">Public</span>
+    <h2 style="margin-top: 15px;">Simple HTTP Parameter Pollution escalated to PII Leak → 4‑Digit Bounty!</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This blog post is based on a public write‑up originally shared by <strong>@Jayesh25_</strong>.
+      It highlights a logic flaw caused by HTTP Parameter Pollution, where duplicate parameters are handled inconsistently across different backend components.
+    </p>
+    <p>
+      By abusing how multiple <code>userID</code> parameters are processed, it was possible to bypass access control checks and retrieve PII belonging to other users.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Proof of Concept</h4>
+    <pre>✅ {"proxyPayload":"Limit=20&userID=&lt;attacker_ID&gt;"} → 200 OK</pre>
+    <pre>❌ {"proxyPayload":"Limit=20&userID=&lt;victim_ID&gt;"} → Forbidden Access</pre>
+    <pre>✅ {"proxyPayload":"userID=&lt;victim_ID&gt;&amp;Limit=20&amp;userID=&lt;attacker_ID&gt;"} → 200 OK</pre>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>📢 Public write‑up — Educational purposes only.</p>
+    <p>💰 Bounty: 4‑digit reward (public report)</p>
+  </div>
+</div>
+
+<!-- Zero-Click Account Takeover -->
+<div id="article-zero-click-ato" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-access">Access Control</span>
+    <span class="access-badge badge-public">Public</span>
+    <h2 style="margin-top: 15px;">Zero‑Click Account Takeover via Inconsistent Email Handling</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This blog post documents a critical account Hi @h1_analyst_diablo @h1_analyst_devin can you at least Update my you Igonre my report even it was not my faulttakeover vulnerability caused by inconsistent email handling across application layers.
+    </p>
+    <p>
+      The issue originates from differences in how the database layer and the SMTP server process and normalize email addresses, specifically due to improper handling of Unicode / Punycode characters.
+    </p>
+    <p>
+      Because of this mismatch, an attacker can receive password reset tokens intended for a victim without any user interaction.
+    </p>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>📢 Public write‑up — Educational purposes only.</p>
+  </div>
+</div>
+
+<!-- Social login ATO -->
+<div id="article-facebook-ato" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-access">Access Control</span>
+    <span class="access-badge badge-public">Public</span>
+    <h2 style="margin-top: 15px;">Account Takeover via Social Login Email Confirmation</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This write-up highlights a flaw in social login flows where unverified, user-supplied emails can be trusted, enabling account takeover.
+    </p>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>📢 Public write‑up — Educational purposes only.</p>
+  </div>
+</div>
+
+<!-- SSO email sync (private) -->
+<div id="article3" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-access">Access Control</span>
+    <span class="access-badge badge-private">Private</span>
+    <h2 style="margin-top: 15px;">SSO Email Synchronization Flaw Leading to Account Takeover</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This vulnerability demonstrates a critical flaw in Single Sign-On (SSO) implementations across multiple domains where email synchronization inconsistencies lead to account takeover.
+    </p>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>✅ The reported issue has been <strong>fixed</strong> by the security team.</p>
+    <p>💰 A bounty reward of <strong>$500</strong> was issued for this report.</p>
+  </div>
+</div>
+
+<!-- NEW: Guest order takeover article page -->
+<div id="article-guest-order-takeover" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-access">Access Control</span>
+    <span class="access-badge badge-public">Public</span>
+    <h2 style="margin-top: 15px;">Access / Edit / Cancel Guest Orders</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This blog post documents a logic flaw that allows unauthorized access to guest orders due to improper account‑to‑order binding.
+      The website allows users to place orders as a guest and requires an email address during checkout for shipping and communication.
+      When an attacker later registers an account using the same email address, previously placed guest orders become accessible to the newly created account.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Steps to Reproduce</h4>
+    <ol>
+      <li>A user places an order as a guest.</li>
+      <li>During checkout the user provides their email address for shipping communication.</li>
+      <li>The order completes and is stored as a guest order.</li>
+      <li>An attacker registers a new account using the same email address.</li>
+      <li>The attacker logs into the newly created account.</li>
+      <li>Previous guest orders associated with that email become visible to the attacker.</li>
+      <li>The attacker can cancel or modify those orders.</li>
+    </ol>
+  </div>
+
+  <div class="article-content">
+    <h4>Result</h4>
+    <p>
+      Unauthorized access to guest orders, allowing an attacker to:
+    </p>
+    <ul>
+      <li>View previous guest orders</li>
+      <li>Cancel orders</li>
+      <li>Modify order details</li>
+    </ul>
+    <p>
+      This results in a Guest Order Takeover due to improper binding between guest orders and later-registered accounts.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Mitigations</h4>
+    <ul>
+      <li>Do not automatically link guest orders to newly registered accounts based solely on email. Require in-band verification (e.g., confirmation link) before associating guest data with an account.</li>
+      <li>Apply additional checks (order tokens, one-time codes) before exposing guest order operations to an account.</li>
+      <li>Audit and log account-to-order association events and alert on suspicious mass associations.</li>
+    </ul>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>📢 Public write‑up — Educational purposes only.</p>
+  </div>
+</div>
+
+<!-- NEW: CSRF Disguised as a Harmless Search Request (private) -->
+<div id="article-csrf-disguised-search" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+
+  <div class="article-header">
+    <span class="vulnerability-tag tag-csrf">CSRF</span>
+    <span class="access-badge badge-private">Private</span>
+    <h2 style="margin-top: 15px;">CSRF Disguised as a Harmless Search Request</h2>
+  </div>
+
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This blog post documents an unusual CSRF technique discovered on a car-related website. The application builds a vehicle-selection URL that appears to be a harmless search/listing, but visiting that URL can silently trigger a state-changing action (adding a vehicle to the logged-in account).
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>What was observed</h4>
+    <p>
+      When adding a vehicle the site generates a URL like:
+    </p>
+    <pre>https://www.test.com/b/Car-Truck-Secondary-Air-Smog-Pumps/33610/bn_583467?
+maspect=contextType:CAR_AND_TRUCK&amp;
+Submodel=45K&amp;
+Year=2025&amp;
+Engine%20-%20Liter_Display=14.9L&amp;
+Trim=45K%20Motorhome%20-%20Class%20A&amp;
+Model=American%20Eagle&amp;
+Make=American%20Coach&amp;
+Engine=14.9L%20912Cu.%20In.%20l6%20DIESEL%20Turbocharged</pre>
+    <p>
+      The page redirects immediately to compatible products, making the request look like a normal search or filter — but the same request can add the selected vehicle into the account state.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Steps to Reproduce</h4>
+    <ol>
+      <li>Log in to an account.</li>
+      <li>Add a vehicle by selecting make, model, year, engine and other details.</li>
+      <li>Observe the application redirects to a products URL with vehicle parameters.</li>
+      <li>Copy the generated URL.</li>
+      <li>Log in to a different account (victim).</li>
+      <li>Paste and visit the copied URL while authenticated as the victim.</li>
+      <li>The vehicle is silently added to the victim's account.</li>
+    </ol>
+  </div>
+
+  <div class="article-content">
+    <h4>Result</h4>
+    <p>
+      Visiting the URL triggers a state‑changing action (adding a vehicle) without user interaction beyond a normal page visit. An attacker can trick victims into opening the link, resulting in unauthorized vehicle data being added to their accounts.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Why This Happens</h4>
+    <p>
+      The application performs sensitive actions based on GET request parameters and lacks CSRF protections or explicit user confirmation for the operation. Because the URL resembles a harmless search, it bypasses common CSRF assumptions and is harder to detect.
+    </p>
+  </div>
+
+  <div class="article-content">
+    <h4>Mitigations</h4>
+    <ul>
+      <li>Do not perform state-changing actions in response to GET requests. Use POST for changes and require anti-CSRF tokens.</li>
+      <li>Require explicit user confirmation for actions that modify account state (e.g., adding a vehicle).</li>
+      <li>Validate the origin and require CSRF tokens or same-site cookie protections for authenticated requests.</li>
+    </ul>
+  </div>
+
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>🔒 Private report — For authorized readers only.</p>
+  </div>
+</div>
+
+<!-- Draft disclosure -->
+<div id="article-draft-disclosure" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+  <div class="article-header">
+    <span class="vulnerability-tag tag-logic">Business Logic</span>
+    <span class="access-badge badge-private">Private</span>
+    <h2 style="margin-top: 15px;">Draft Store Policies Disclosure via `draft=true` Parameter</h2>
+  </div>
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This write-up is public and organized from security research observations. It highlights an access control flaw where draft store policies could be exposed to unauthorized users.
+    </p>
+  </div>
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>✅ The reported issue has been <strong>fixed</strong> by the security team.</p>
+    <p>💰 A bounty reward of <strong>$600</strong> was issued for this report.</p>
+  </div>
+</div>
+
+<!-- PII leak -->
+<div id="article-pii-leak" class="article-page">
+  <a href="#" class="back-btn" onclick="hideArticle(); return false;">← Back to Articles</a>
+  <div class="article-header">
+    <span class="vulnerability-tag tag-logic">Business Logic</span>
+    <span class="access-badge badge-public">Public</span>
+    <h2 style="margin-top: 15px;">PII Leak via Email-Based Owner Creation Logic</h2>
+  </div>
+  <div class="article-content">
+    <h4>About this issue</h4>
+    <p>
+      This write-up is public and based on a security vulnerability discovered by <strong>Hossam Hamada</strong> during participation in a bug bounty program.
+    </p>
+  </div>
+  <div class="report-status">
+    <h4>Status</h4>
+    <p>✅ The issue was <strong>acknowledged, resolved, and rewarded</strong> through the responsible disclosure program.</p>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  © 2026 ThinkBug — Educational Content Only
+</footer>
+
+<script>
+  // Two separate filters: access and category
+  let currentCategory = 'all';
+  let currentAccess = 'all';
+
+  function applyFilters() {
+    const articles = document.querySelectorAll('article[data-category]');
+    articles.forEach(article => {
+      const articleCategory = article.dataset.category;
+      const articleAccess = article.dataset.access;
+
+      const categoryMatch = (currentCategory === 'all') || (articleCategory === currentCategory);
+      const accessMatch = (currentAccess === 'all') || (articleAccess === currentAccess);
+
+      if (categoryMatch && accessMatch) {
+        article.classList.remove('hidden');
+      } else {
+        article.classList.add('hidden');
+      }
+    });
+  }
+
+  // Set access filter (All / Public / Private)
+  function setAccessFilter(filter, btn) {
+    currentAccess = filter;
+    applyFilters();
+
+    // Update active state only within the access group
+    const group = document.getElementById('access-filters');
+    const buttons = group.querySelectorAll('.filter-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  // Set category filter
+  function setCategoryFilter(filter, btn) {
+    currentCategory = filter;
+    applyFilters();
+
+    // Update active state only within the category group
+    const group = document.getElementById('category-filters');
+    const buttons = group.querySelectorAll('.filter-btn');
+    buttons.forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  // Show article page
+  function showArticle(articleId) {
+    document.querySelector('.main-content').classList.add('hidden');
+    const page = document.getElementById(articleId);
+    if (page) page.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // Hide article and return to list
+  function hideArticle() {
+    document.querySelectorAll('.article-page').forEach(page => {
+      page.classList.remove('active');
+    });
+    document.querySelector('.main-content').classList.remove('hidden');
+    window.scrollTo(0, 0);
+    return false;
+  }
+
+  // Initialize on load
+  document.addEventListener('DOMContentLoaded', function() {
+    applyFilters();
+  });
+</script>
+
+</body>
+</html>
